@@ -11,22 +11,25 @@ class PokemonCard extends StatelessWidget {
 
   final String name;
   final String imageUrl;
-  final Function onTap;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: _randomColor(name),
-      child: ClipRRect(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            backgroundPokeball,
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: infoPokemon,
-            ),
-          ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: _randomColor(name),
+        child: ClipRRect(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              backgroundPokeball,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: infoPokemon,
+              ),
+            ],
+          ),
         ),
       ),
     );
