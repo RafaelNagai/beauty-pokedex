@@ -2,6 +2,7 @@ import 'package:beauty_pokedex/core/dependency_injection.dart/dependency_injecti
 import 'package:beauty_pokedex/core/environment/environment.dart';
 import 'package:beauty_pokedex/core/http/get_http.dart';
 import 'package:beauty_pokedex/core/http/http.dart';
+import 'package:beauty_pokedex/core/task_manager/task_manager.dart';
 import 'package:beauty_pokedex/core/usecase/usecase.dart';
 import 'package:beauty_pokedex/features/pokedex/data/datasources/pokemon_remote_datasource.dart';
 import 'package:beauty_pokedex/features/pokedex/data/repositories/pokemon_repository.dart';
@@ -21,4 +22,5 @@ void registerInjections(Environment environment) {
       GetAllPokemonsUseCase(pokemonRepository: DI.get()));
   DI.register<PokemonListController>(
       PokemonListController(getAllPokemonsUseCase: DI.get()));
+  DI.register<TaskManager>(TaskManager());
 }
