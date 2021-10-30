@@ -9,7 +9,7 @@ class PokemonRemoteDatasourceImpl implements PokemonDatasource {
   });
 
   final Http http;
-  final int limit = 6;
+  final int limit = 15;
 
   @override
   Future<List<Pokemon>> all(int index) async {
@@ -28,26 +28,29 @@ class PokemonRemoteDatasourceImpl implements PokemonDatasource {
   @override
   Future<Pokemon> get(String name) async {
     final response = await http.getResponse('/pokemon/$name');
-    return response.body.toPokemon(name);
+    return (response.body as Map).toPokemon(name);
   }
 }
 
-extension ConverterJsonToPokemon on Map {
+extension _ConverterMapToPokemon on Map {
   Pokemon toPokemon(String name) {
     return Pokemon(
       name: name,
       image: this['sprites']['other']['official-artwork']['front_default'],
-      types: this['types'].toTypes(),
+      types: (this['types'] as List).toTypes(),
     );
   }
 }
 
-extension ConverterJsonToType on Map {
+extension _ConverterMapToType on Map {
   Type toType() {
     return Type(name: this['type']['name']);
   }
+}
 
+extension _ConverterListToType on List {
   List<Type> toTypes() {
-    return List<Type>.generate(length, (index) => this[index].toType());
+    return List<Type>.generate(
+        length, (index) => (this[index] as Map).toType());
   }
 }
