@@ -1,6 +1,8 @@
 import 'package:beauty_pokedex/core/dependency_injection.dart/dependency_injection.dart';
 import 'package:beauty_pokedex/features/pokedex/presentation/controllers/pokemon_list_controller.dart';
+import 'package:beauty_pokedex/features/pokedex/presentation/widgets/pokemon_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 class PokemonListPage extends StatefulWidget {
@@ -23,13 +25,20 @@ class _PokemonListPageState extends State<PokemonListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        return ListView.builder(
+        return StaggeredGridView.countBuilder(
+          crossAxisCount: 4,
           itemCount: controller.pokemons.length,
           itemBuilder: (_, index) {
-            return ListTile(
-              title: Text(controller.pokemons[index].name),
+            return PokemonCard(
+              name: controller.pokemons[index].name,
+              imageUrl: controller.pokemons[index].image,
+              onTap: () {},
             );
           },
+          staggeredTileBuilder: (int index) =>
+              StaggeredTile.count(2, index.isEven ? 2 : 1),
+          mainAxisSpacing: 4,
+          crossAxisSpacing: 4,
         );
       }),
     );
